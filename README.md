@@ -1,5 +1,7 @@
 # fifastats
 
+A site that displays FIFA 20 player and team information. Players and teams can be searched, sorted and filtered, as well as have each of their in-depth information viewed.
+
 ![players](players.png)
 
 ![player](player.png)
@@ -9,12 +11,6 @@
 https://statsfifa.herokuapp.com/
 
 Note: It may take a few seconds for the page to load because I'm using Heroku's free tier.
-
-A web site that displays FIFA 20 player and team information.
-
-Players and teams can be searched, sorted and filtered, as well as have each of their in-depth information viewed.
-
-Stack: Angular, TypeScript, Node.js and PostgreSQL.
 
 #### To run locally:
 
