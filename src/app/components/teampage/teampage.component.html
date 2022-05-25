@@ -1,0 +1,137 @@
+<div id='team-page' *ngIf='team'>
+
+    <div
+    id='team-header'
+    class='team-section flex'>
+        <h2>{{ team.team_name }}</h2>
+        <img
+            class='team-img'
+            width='{{ setClubWidth(team.team_name) }}'
+            height='{{ setClubHeight(team.team_name) }}'
+            src='{{ setClubUrl(team.team_name) }}'
+            alt=''>
+    </div>
+
+    <div class='team-section flex'>
+        <div class='team-rating'>
+            <span [ngClass]="setRatingColor(team.overall)">{{ team.overall }}</span> <br>
+            <span class='team-rating-title'>Overall</span>
+        </div>
+        <div class='team-rating'>
+            <span [ngClass]="setRatingColor(team.attacking)">{{ team.attacking }}</span> <br>
+            <span class='team-rating-title'>Attacking</span>
+        </div>
+        <div class='team-rating'>
+            <span [ngClass]="setRatingColor(team.midfield)">{{ team.midfield }}</span> <br>
+            <span class='team-rating-title'>Midfield</span>
+        </div>
+        <div class='team-rating'>
+            <span [ngClass]="setRatingColor(team.defending)">{{ team.defending }}</span> <br>
+            <span class='team-rating-title'>Defending</span>
+        </div>
+    </div>
+
+    <div class='team-section no-bottom-border'>
+        <div class='flex-center no-select'>
+            <td
+            (click)='sortOnColumn($event, "overall")'
+            class='table-header ovr-col tooltip'>
+                <span class="tooltiptext">Overall</span>
+                Ovr.
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "short_name")'
+            class='table-header name-col'>
+                Name
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "nationality")'
+            class='table-header nation-col'>
+                Nationality
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "club")'
+            class='table-header club-col'>
+                Club
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "player_positions")'
+            class='table-header pos-col tooltip'>
+                <span class="tooltiptext">Position</span>
+                Pos.
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "pace")'
+            class='table-header pac-col tooltip'>
+                <span class="tooltiptext">Pace</span>
+                PAC
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "shooting")'
+            class='table-header sho-col tooltip'>
+                <span class="tooltiptext">Shooting</span>
+                SHO
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "passing")'
+            class='table-header pas-col tooltip'>
+                <span class="tooltiptext">Passing</span>
+                PAS
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "dribbling")'
+                class='table-header dri-col tooltip'>
+                <span class="tooltiptext">Dribbling</span>
+                DRI
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "defending")'
+            class='table-header def-col tooltip'>
+                <span class="tooltiptext">Defending</span>
+                DEF
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+        </div>
+        <app-fifaplayer
+            *ngFor='let player of players, index as i'
+            [player]='player'
+            [index]='i'>
+        </app-fifaplayer>
+        <div id='table-paginator' class='flex-center no-select'>
+            <td class='name-col'>
+                <span
+                *ngIf='offset != 0'
+                (click)=paginate(-1)>
+                    <b class='page-arrow'>< </b>Back
+                </span>
+            </td>
+            <td class='ovr-col'></td>
+            <td class='nation-col'></td>
+            <td class='club-col'>
+                Page {{ curPage }}
+            </td>
+            <td class='pos-col'></td>
+            <td class='pac-col'></td>
+            <td class='sho-col'></td>
+            <td class='pas-col'></td>
+            <td class='dri-col'></td>
+            <td class='def-col'>
+                <span
+                *ngIf='players.length >= pageSize'
+                (click)='paginate(1)'>
+                    Next<b class='page-arrow'> ></b>
+                </span>
+            </td>
+        </div>
+    </div>
+    
+</div>

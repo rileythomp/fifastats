@@ -1,0 +1,168 @@
+<div class='flex-center'>
+    <div id='filter' class='filter-box'>
+        <div class='rating-filter'>
+            <p class='filter-title'>Overall</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'        
+            type='text'
+            placeholder='0'
+            (change)='ovrLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='ovrUpper = ($event.target.value || 99)'
+            > 
+        </div>
+        <div class='rating-filter'>
+            <p class='filter-title'>Attacking</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'
+            type='text'
+            placeholder='0'
+            (change)='attLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='attUpper = ($event.target.value || 99)'  
+            > 
+        </div>
+        <div class='rating-filter'>
+            <p class='filter-title'>Midfield</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'
+            type='text'
+            placeholder='0'
+            (change)='midLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='midUpper = ($event.target.value || 99)'  
+            > 
+        </div>
+        <div class='rating-filter'>
+            <p class='filter-title'>Defending</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'
+            type='text'
+            placeholder='0'
+            (change)='defLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='defUpper = ($event.target.value || 99)'  
+            > 
+        </div>
+        <button (click)='updateTeams()'>Search</button>
+    </div>
+    <div class='fifatable'>
+        <div class="flex-center">
+            <input
+            id='team-search'
+            type="text"
+            (keyup)='updateTeams()'
+            [(ngModel)]='searchTerm'
+            placeholder='Search'
+            >
+        </div>
+        <div class='flex-center no-select'>
+            <td 
+            (click)='sortOnColumn($event, "overall")'
+            class='table-header overall-col'>
+                Overall
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td 
+            (click)='sortOnColumn($event, "team_name")'
+            class='table-header team-name-col'>
+                Team
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td 
+            (click)='sortOnColumn($event, "attacking")'
+            class='table-header team-rating-col'>
+                Attacking
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "midfield")'
+            class='table-header team-rating-col'>
+                Midfield
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "defending")'
+            class='table-header team-rating-col'>
+                Defending
+                
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "num_players")'
+            class='table-header players-col'>
+                Players
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+        </div>
+        <app-fifateam
+            *ngFor='let team of teams, index as i'
+            [team]='team'
+            [index]='i'>
+        </app-fifateam>
+        <div id='table-paginator' class='flex-center no-select'>
+            <td class='overall-col'>
+                <span
+                *ngIf='offset != 0'
+                (click)=paginate(-1)
+                >
+                    <b class='page-arrow'>< </b>Back
+                </span>
+            </td>
+            <td class='team-name-col'></td>
+            <td class='team-rating-col'>
+                Page {{ curPage }}
+            </td>
+            <td class='team-rating-col'>
+            </td>
+            <td class='team-rating-col'></td>
+            <td class='players-col'>
+                <span
+                *ngIf='teams.length >= 15'
+                (click)='paginate(1)'
+                >
+                    Next<b class='page-arrow'> ></b>
+                </span>
+            </td>
+        </div>
+    </div>
+    <div class='filter-box'>
+
+    </div>
+</div>

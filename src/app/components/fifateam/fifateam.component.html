@@ -1,0 +1,35 @@
+<div class='flex-center'>
+    <td class='overall-col'>
+        <span [ngClass]='setRatingColor(team.overall)'>
+            {{ team.overall }}
+        </span>
+    </td>
+    <td class='team-name-col'>
+        <a [routerLink]="['/team', team.id]">
+            {{ (team.team_name.length > 27 ? team.team_name.slice(0, 25) + '...' : team.team_name) }}
+            <img
+            class='team-img'
+            width='{{ setClubWidth(team.team_name) }}'
+            height='{{ setClubHeight(team.team_name) }}'
+            src='{{ setClubLogo(team.team_name) }}'
+            alt=''
+            >
+        </a>
+    </td>
+    <td class='team-rating-col'>
+        <span [ngClass]='setRatingColor(team.attacking)'>
+            {{ team.attacking }}
+        </span>
+    </td>
+    <td class='team-rating-col'>
+        <span [ngClass]='setRatingColor(team.midfield)'>
+            {{ team.midfield }}
+        </span>
+    </td>
+    <td class='team-rating-col'>
+        <span [ngClass]='setRatingColor(team.defending)'>
+            {{ team.defending }}
+        </span>
+    </td>
+    <td class='players-col no-select'>{{ team.num_players }}</td>
+</div>

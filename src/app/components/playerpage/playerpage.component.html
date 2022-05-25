@@ -1,0 +1,247 @@
+<div 
+id='player-page'
+*ngIf='player'>
+    <div id='player-header'
+         class='player-section flex'>
+        <div>
+            <img
+            id='player-headshot'
+            src='{{ setPlayerHeadshot(player.id) }}'
+            alt=''
+            >
+        </div>
+        
+        <div id='player-header-info'>
+            <div class='flex'>
+                <h2>{{ player.long_name }}</h2>
+                <img
+                class='country-img'
+                src='{{ setFlagUrl(player.nationality) }}'
+                alt=''
+                >
+            </div>
+            <span>{{ player.player_positions }} </span>&nbsp;|&nbsp;
+            <span> {{ calculateAge(player.dob) }} y.o. ({{ formatDate(player.dob) }}) </span>&nbsp;|&nbsp;
+            <span> {{ Math.floor(player.height_cm/30.48) }}' {{ Math.floor((player.height_cm%30.48) * 0.3937) }}" </span>&nbsp;|&nbsp;
+            <span> {{ Math.round(player.weight_kg * 2.204623) }}lbs</span>
+        </div>
+    </div>
+
+    <div id='rating-money' class='player-section flex'>
+        <div>
+            <span class='rating-val' [ngClass]="setRatingColor(player.overall)">{{ player.overall }}</span> <br>
+            <span>Overall</span>
+        </div>
+        <div>
+            <span class='rating-val' [ngClass]="setRatingColor(player.potential)">{{ player.potential }}</span> <br>
+            <span>Potential</span>
+        </div>
+        <div>
+            <b>${{ 1.2*player.value_eur/1000000 }}M USD</b> <br>
+            <span>Value</span>
+        </div>
+        <div>
+            <b>${{ 1.2*player.wage_eur/1000 }}K USD</b><br>
+            Wage
+        </div>
+    </div>
+
+    <div id='player-profile' class='player-section flex'>
+        <div>
+            <h3>Profile</h3>
+            <p>
+                Preferred Foot: {{ player.preferred_foot }}
+            </p>
+            <p class='no-bottom-margin'>
+                <span *ngFor='let x of starArray(player.weak_foot);'
+                class='star'>★ </span>
+                <br>
+                <span class='star-label'>Weak Foot</span>
+            </p>
+            <p class='no-bottom-margin'>
+                    <span *ngFor='let x of starArray(player.skill_moves);'
+                    class='star'>★ </span>
+                    <br>
+                    <span class='star-label'>Skill Moves</span>    
+            </p>
+            <p>
+                    <span *ngFor='let x of starArray(player.international_reputation);'
+                    class='star'>★ </span>
+                    <br>
+                    <span class='star-label'>International Reputation</span>           
+            </p>
+            <p>
+                Work Rate: {{ player.work_rate }}<br>                
+            </p>
+            <!-- <p>
+                Body Type: {{player.body_type }} <br>
+            </p> -->
+            <p>
+                Release Clause: {{ player.release_clause_eur/1000000 }}M                
+            </p>
+        </div>
+        <div *ngIf='player.player_tags'>
+            <h3>Player Specialties</h3>
+            <li
+                *ngFor='let tag of player.player_tags.split(",")'
+                [tag]='tag'
+                >
+                {{ tag.split('#')[1] }}
+            </li>
+        </div>
+        <div *ngIf='player.player_positions.split(",")[0] == "GK"'>
+            <h3>Goalkeeping</h3>
+            <p
+            *ngFor='let gk_skill of player.gk_skills'
+            [gk_skill]='gk_skill'
+            >
+                <span [ngClass]='setRatingColor(gk_skill.value)'>{{ gk_skill.value }}</span>
+                {{ gk_skill.key }}
+            </p>
+        </div>
+        <div class='profile-section'>
+            <div class='flex'>
+                <h3>
+                    <a [routerLink]="['/team', player.team_id]">
+                        {{ player.club }}
+                    </a>
+                </h3>
+                <img
+                width='{{ setClubWidth(player.club) }}'
+                height='{{ setClubHeight(player.club) }}'
+                class='club-img'
+                src='{{ setClubUrl(player.club) }}' 
+                alt=''>
+            </div>
+            <p>
+                Position: {{ player.team_position || player.nation_position }}
+            </p>
+            <p>
+                Jersey Number: {{ player.team_jersey_number || player.nation_jersey_number}}
+            </p>
+            <p *ngIf='player.joined'>
+                Joined: {{ formatDate(player.joined) }}
+            </p>
+            <p *ngIf='player.loaned_from'>
+                    Loaned From: {{ player.loaned_from }}
+                </p>
+            <p>
+                Contract Valid Until: {{ player.contract_valid_until }}
+            </p>
+        </div>
+        <div class='profile-section'>
+            <div class='flex'>
+                <h3>{{ player.nationality }}</h3>
+                <img class='country-img' src='{{ setFlagUrl(player.nationality) }}' alt=''>
+            </div>
+            <p>
+                Position: {{ player.nation_position || player.team_position}}
+            </p>
+            <p>
+                Jersey Number: {{ player.nation_jersey_number || player.team_jersey_number }}
+            </p>
+        </div>
+    </div>
+
+    <div id='ratings' class='player-section flex'>
+        <div class='ratings-col'>
+            <div>
+                <p class='attribute-group'>Attacking</p>
+                <p
+                *ngFor='let a_rating of player.attacking_ratings'
+                [a_rating]='a_rating'
+                >
+                    <span *ngIf='a_rating.value'>
+                        <span [ngClass]="setRatingColor(a_rating.value)">{{ a_rating.value }}</span>
+                        {{ a_rating.key }} 
+                    </span>
+                </p>
+            </div>
+            <div>
+                <p class='attribute-group'>Mentality</p>
+                <p
+                *ngFor='let m_rating of player.mentality_ratings'
+                [m_rating]='m_rating'
+                >
+                    <span *ngIf='m_rating.value'>
+                        <span [ngClass]="setRatingColor(m_rating.value)">{{ m_rating.value }}</span>
+                        {{ m_rating.key }} 
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class='ratings-col'>
+            <div>
+                <p class='attribute-group'>Skill</p>
+                <p
+                *ngFor='let s_rating of player.skill_ratings'
+                [s_rating]='s_rating'
+                >
+                    <span *ngIf='s_rating.value'>
+                        <span [ngClass]="setRatingColor(s_rating.value)">{{ s_rating.value }}</span>
+                        {{ s_rating.key }} 
+                    </span>
+                </p>
+            </div>
+            <div>
+                <p class='attribute-group'>Defending</p>
+                <p
+                *ngFor='let d_rating of player.def_ratings'
+                [d_rating]='d_rating'
+                >
+                    <span *ngIf='d_rating.value'>
+                        <span [ngClass]="setRatingColor(d_rating.value)">{{ d_rating.value }}</span>
+                        {{ d_rating.key }} 
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class='ratings-col'>
+            <div>
+                <p class='attribute-group'>Movement</p>
+                <p
+                *ngFor='let mv_rating of player.movement_ratings'
+                [mv_rating]='mv_rating'
+                >
+                    <span *ngIf='mv_rating.value'>
+                        <span [ngClass]="setRatingColor(mv_rating.value)">{{ mv_rating.value }}</span>
+                        {{ mv_rating.key }} 
+                    </span>
+                </p>
+            </div>
+            <div>
+                <p class='attribute-group'>Goalkeeping</p>
+                <p
+                *ngFor='let gk_rating of player.gk_ratings'
+                [gk_rating]='gk_rating'
+                >
+                    <span [ngClass]="setRatingColor(gk_rating.value)">{{ gk_rating.value }}</span>
+                    {{ gk_rating.key }}
+                </p>
+            </div>
+        </div>
+        <div class='ratings-col'>
+            <div>
+                <p class='attribute-group'>Power</p>
+                <p
+                *ngFor='let p_rating of player.power_ratings'
+                [p_rating]='p_rating'
+                >
+                    <span *ngIf='p_rating.value'>
+                        <span [ngClass]="setRatingColor(p_rating.value)">{{ p_rating.value }}</span>
+                        {{ p_rating.key }} 
+                    </span>
+                </p>
+            </div>
+            <div *ngIf='player.player_traits'>
+                <p class='attribute-group'>Traits</p>
+                <li
+                *ngFor='let trait of player.player_traits.split(",")'
+                [trait]='trait'
+                >
+                    {{ trait }}
+                </li>
+            </div>
+        </div>
+    </div>
+</div>

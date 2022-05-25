@@ -1,0 +1,27 @@
+<div class='flex-center' [ngClass]='setRowColor()'>
+    <td class='ovr-col'><span  [ngClass]='setRatingColor(player.overall)'>{{ player.overall }}</span></td>
+    <td class='name-col'>
+        <a [routerLink]="['/player', player.id]">
+            {{ player.short_name }}
+        </a>
+    </td>
+    <td class='nation-col'>
+        <img
+        class='country-img'
+        src='{{ setFlagUrl(player.nationality) }}'
+        alt=''
+        >
+        {{ player.nationality }}
+    </td>
+    <td class='club-col'>
+        <a [routerLink]="['/team', player.team_id]">
+            {{ (player.club.length > 25 ? player.club.slice(0, 22) + '...' : player.club) }}
+        </a>
+    </td>
+    <td class='pos-col'>{{ player.player_positions.split(',')[0] }}</td>
+    <td class='pac-col no-select'><span [ngClass]='setRatingColor(player.pace)'>{{ player.pace}}</span></td>
+    <td class='sho-col no-select'><span [ngClass]='setRatingColor(player.shooting)'>{{ player.shooting}}</span></td>
+    <td class='pas-col no-select'><span [ngClass]='setRatingColor(player.passing)'>{{ player.passing}}</span></td>
+    <td class='dri-col no-select'><span [ngClass]='setRatingColor(player.dribbling)'>{{ player.dribbling}}</span></td>
+    <td class='def-col no-select'><span n [ngClass]='setRatingColor(player.defending)'>{{ player.defending}}</span></td>
+</div>

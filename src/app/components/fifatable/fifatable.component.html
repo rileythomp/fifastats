@@ -1,0 +1,252 @@
+<div class='flex-center'>
+    <div
+    id='filter'
+    class='filter-box'
+    >
+        <div class='rating-filter'>
+            <p class='filter-title'>Overall</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'        
+            type='text'
+            placeholder='0'
+            (change)='ovrLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='ovrUpper = ($event.target.value || 99)'
+            > 
+        </div>
+        <div class='rating-filter'>
+            <p class='filter-title'>Pace</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'
+            type='text'
+            placeholder='0'
+            (change)='pacLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='pacUpper = ($event.target.value || 99)'            
+            > 
+        </div>
+        <div class='rating-filter'>
+            <p class='filter-title'>Shooting</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'
+            type='text'
+            placeholder='0'
+            (change)='shoLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='shoUpper = ($event.target.value || 99)'
+            > 
+        </div>
+        <div class='rating-filter'>
+            <p class='filter-title'>Passing</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'
+            type='text'
+            placeholder='0'
+            (change)='pasLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'      
+            (change)='pasUpper = ($event.target.value || 99)'
+            > 
+        </div>
+        <div class='rating-filter'>
+            <p class='filter-title'>Dribbling</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'
+            type='text'
+            placeholder='0'
+            (change)='driLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onblur='this.placeholder="99"'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='driUpper = ($event.target.value || 99)'
+            > 
+        </div>
+        <div class='rating-filter'>
+            <p class='filter-title'>Defending</p>
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="0"'
+            type='text'
+            placeholder='0'
+            (change)='defLower = ($event.target.value || 0)'
+            >
+            &nbsp; - &nbsp;
+            <input
+            class='filter-input'
+            onfocus='this.placeholder=""'
+            onblur='this.placeholder="99"'
+            type='text'
+            placeholder='99'
+            (change)='defUpper = ($event.target.value || 99)'
+            > 
+        </div>
+        <button (click)='updatePlayers()'>Search</button>
+    </div>
+    <div class='fifatable'>
+        <div class="flex-center">
+            <select
+            id='search-type'
+            [(ngModel)]='searchType'
+            (change)='updatePlayers()'
+            >
+                <option selected value='long_name'>Player</option>
+                <option value='nationality'>Nationality</option>
+                <option value='club'>Club</option>
+            </select>
+            <input
+            id='search-term'
+            type="text"
+            (keyup)='updatePlayers()'
+            [(ngModel)]='searchTerm'
+            placeholder='Search by player, nationality or club'
+            >
+        </div>
+        <div class='flex-center no-select'>
+            <td
+            (click)='sortOnColumn($event, "overall")'
+            class='table-header ovr-col tooltip'>
+                <span class="tooltiptext">Overall</span>
+                Ovr.
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "short_name")'
+            class='table-header name-col'>
+                Name
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "nationality")'
+            class='table-header nation-col'>
+                Nationality
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "club")'
+            class='table-header club-col'>
+                Club
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "player_positions")'
+            class='table-header pos-col tooltip'>
+                <span class="tooltiptext">Position</span>
+                Pos.
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "pace")'
+            class='table-header pac-col tooltip'>
+                <span class="tooltiptext">Pace</span>
+                PAC
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "shooting")'
+            class='table-header sho-col tooltip'>
+                <span class="tooltiptext">Shooting</span>
+                SHO
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "passing")'
+            class='table-header pas-col tooltip'>
+                <span class="tooltiptext">Passing</span>
+                PAS
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "dribbling")'
+                class='table-header dri-col tooltip'>
+                <span class="tooltiptext">Dribbling</span>
+                DRI
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+            <td
+            (click)='sortOnColumn($event, "defending")'
+            class='table-header def-col tooltip'>
+                <span class="tooltiptext">Defending</span>
+                DEF
+                <span class='arrow-span'>{{ sortDir == 'DESC' ? '▼' : '▲' }}</span>
+            </td>
+        </div>
+        <app-fifaplayer
+            *ngFor='let player of players, index as i'
+            [player]='player'
+            [index]='i'
+            >
+        </app-fifaplayer>
+        <div id='table-paginator' class='flex-center no-select'>
+            <td class='name-col'>
+                <span
+                *ngIf='offset != 0'
+                (click)=paginate(-1)>
+                    <b class='page-arrow'>< </b>Back
+                </span>
+            </td>
+            <td class='ovr-col'></td>
+            <td class='nation-col'></td>
+            <td class='club-col'>
+                Page {{ curPage }}
+            </td>
+            <td class='pos-col'></td>
+            <td class='pac-col'></td>
+            <td class='sho-col'></td>
+            <td class='pas-col'></td>
+            <td class='dri-col'></td>
+            <td class='def-col'>
+                <span
+                *ngIf='players.length >= 15'
+                (click)='paginate(1)'>
+                    Next<b class='page-arrow'> ></b>
+                </span>
+            </td>
+        </div>
+    </div>
+    <div class='filter-box'>
+
+    </div>
+</div>
